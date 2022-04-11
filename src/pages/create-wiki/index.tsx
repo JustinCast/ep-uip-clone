@@ -306,7 +306,7 @@ const CreateWiki = () => {
     } else {
       setIsToResetImage(false)
     }
-  }, [dispatch, slug, updateImageState, wikiData])
+  }, [dispatch, slug])
 
   useEffect(() => {
     if (isLoadingWiki === false && !wikiData) setMd(initialEditorValue)

@@ -68,7 +68,8 @@ const Dropzone = ({ dropZoneActions }: DropzoneType) => {
       setHideImageInput(false)
       setPaths([])
     }
-  }, [deleteImage, isToResetImage, setHideImageInput])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isToResetImage, setHideImageInput])
 
   return (
     <Box>
