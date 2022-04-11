@@ -45,6 +45,7 @@ const Editor = ({ onChange, markdown }: EditorType) => {
       ?.getInstance()
       .getMarkdown()
       .toString() as string
+
     if (markdown !== currentMd) onChange(currentMd)
   }, [editorRef, markdown, onChange])
 
