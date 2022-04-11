@@ -17,6 +17,17 @@ const Editor = ({ onChange, markdown }: EditorType) => {
   const editorRef = useRef<ToastUIEditor>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // when markdown changes, update the editor
+  useEffect(() => {
+    const editorInstance = editorRef.current?.getInstance()
+    if (editorInstance?.getMarkdown() !== markdown) {
+      editorInstance?.setMarkdown(markdown)
+      editorInstance?.moveCursorToStart()
+      editorInstance?.setScrollTop(0)
+    }
+  }, [markdown])
+
+  // when color mode changes, update top level class tag
   useEffect(() => {
     const editorContainer = containerRef.current?.getElementsByClassName(
       'toastui-editor-defaultUI',
@@ -28,13 +39,14 @@ const Editor = ({ onChange, markdown }: EditorType) => {
     }
   }, [colorMode])
 
+  // when there is a change in the editor, update the markdown
   const handleOnEditorChange = useCallback(() => {
     const currentMd = editorRef.current
       ?.getInstance()
       .getMarkdown()
       .toString() as string
     if (markdown !== currentMd) onChange(currentMd)
-  }, [editorRef.current?.getInstance().getMarkdown(), markdown, onChange])
+  }, [editorRef, markdown, onChange])
 
   return (
     <Box ref={containerRef} m={0} w="100%" h="100%">
@@ -44,8 +56,8 @@ const Editor = ({ onChange, markdown }: EditorType) => {
           height="100%"
           autofocus={false}
           theme={colorMode === 'dark' ? 'dark' : 'light'}
-          initialValue={markdown}
           ref={editorRef}
+          initialValue={markdown}
           onChange={handleOnEditorChange}
         />
       )}
