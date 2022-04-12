@@ -5,6 +5,7 @@ import React, {
   memo,
   useCallback,
   ChangeEvent,
+  useMemo,
 } from 'react'
 import dynamic from 'next/dynamic'
 import {
@@ -32,11 +33,10 @@ import {
   useGetWikiQuery,
 } from '@/services/wikis'
 import { useRouter } from 'next/router'
-import { RootState, store } from '@/store/store'
+import { store } from '@/store/store'
 import { GetServerSideProps } from 'next'
 import { skipToken } from '@reduxjs/toolkit/query'
 import { useAccount, useSignTypedData, useWaitForTransaction } from 'wagmi'
-import { useSelector } from 'react-redux'
 import { MdTitle } from 'react-icons/md'
 import slugify from 'slugify'
 import axios from 'axios'
@@ -97,10 +97,6 @@ const CreateWiki = () => {
   )
   const { image, ipfsHash, updateImageState, isWikiBeingEdited } =
     useContext<ImageStateType>(ImageContext)
-  const currentPageType = useSelector(
-    (state: RootState) =>
-      state.wiki.metadata.filter(m => m.id === 'page-type')[0],
-  )
   const [{ data: accountData }] = useAccount()
   const [md, setMd] = useState<string>()
   const [openTxDetailsDialog, setOpenTxDetailsDialog] = useState<boolean>(false)
@@ -257,7 +253,7 @@ const CreateWiki = () => {
     submittingWiki || !accountData?.address || signing || isLoadingWiki
 
   const handleOnEditorChanges = (val: string | undefined) => {
-    if (val) setMd(val)
+    setMd(val || ' ')
   }
 
   const updatePageTypeTemplate = useCallback(() => {
@@ -313,12 +309,20 @@ const CreateWiki = () => {
   }, [isLoadingWiki, wikiData])
 
   // update the page type template when the page type changes
+  const presentPageType = useMemo(
+    () => wiki?.metadata?.find(m => m.id === 'page-type')?.value,
+    [wiki?.metadata],
+  )
   useEffect(() => {
-    if (wiki && wikiData) {
-      const pageType = getWikiMetadataById(wikiData, 'page-type')?.value
-      if (currentPageType.value !== pageType) updatePageTypeTemplate()
+    if (presentPageType) {
+      let isMdPageTemplate = false
+      PageTemplate.forEach(p => {
+        if (p.templateText === md) isMdPageTemplate = true
+      })
+      if (isMdPageTemplate || md === ' ') updatePageTypeTemplate()
     }
-  }, [currentPageType, updatePageTypeTemplate, wiki, wikiData])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [presentPageType])
 
   useEffect(() => {
     const getSignedTxHash = async () => {
