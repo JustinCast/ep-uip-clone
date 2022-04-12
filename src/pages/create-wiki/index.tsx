@@ -24,6 +24,7 @@ import {
   HStack,
   Input,
   InputLeftElement,
+  Tooltip,
   InputGroup,
   Icon,
 } from '@chakra-ui/react'
@@ -424,49 +425,64 @@ const CreateWiki = () => {
             placeholder="Title goes here"
           />
         </InputGroup>
-        <Button
-          variant="outline"
-          w="250px"
-          onClick={() => {
-            randomSlugIdRef.current += 1
-            dispatch({
-              type: 'wiki/updateMetadata',
-              payload: {
-                id: 'page-type',
-                // get random page id from page templates for value
-                value:
-                  PageTemplate[randomSlugIdRef.current % PageTemplate.length]
-                    .type,
-              },
-            })
-          }}
-        >
-          Rand-Pgtype
-        </Button>
-        <Button
-          variant="outline"
-          w="250px"
-          onClick={() => {
-            const randomSlugs = [
-              'long-sample-wiki',
-              'decentralized-exchange-(dex)',
-              'sushiswap',
-              'komainu-(company)',
-              'summary-test-wiki',
-              'simplypheyie',
-              'jdjdkedkddkdkd',
-            ]
-            randomSlugIdRef.current += 1
+        <Tooltip label="For testing editor auto scroll to bottom - click on edit button in wiki page to test for no autofocus">
+          <Button
+            variant="outline"
+            w="250px"
+            onClick={() => {
+              router.push(`/wiki/${slug}`)
+            }}
+          >
+            back to readpg
+          </Button>
+        </Tooltip>
+        <Tooltip label="For testing page template: Editor content must be empty (or) Editor content must be a page template">
+          <Button
+            variant="outline"
+            w="250px"
+            onClick={() => {
+              randomSlugIdRef.current += 1
+              dispatch({
+                type: 'wiki/updateMetadata',
+                payload: {
+                  id: 'page-type',
+                  // get random page id from page templates for value
+                  value:
+                    PageTemplate[randomSlugIdRef.current % PageTemplate.length]
+                      .type,
+                },
+              })
+            }}
+          >
+            Rand-Pgtype
+          </Button>
+        </Tooltip>
+        <Tooltip label="For testing state changes dynamically with slug">
+          <Button
+            variant="outline"
+            w="250px"
+            onClick={() => {
+              const randomSlugs = [
+                'long-sample-wiki',
+                'decentralized-exchange-(dex)',
+                'sushiswap',
+                'komainu-(company)',
+                'summary-test-wiki',
+                'simplypheyie',
+                'jdjdkedkddkdkd',
+              ]
+              randomSlugIdRef.current += 1
 
-            router.push(
-              `/create-wiki?slug=${
-                randomSlugs[randomSlugIdRef.current % randomSlugs.length]
-              }`,
-            )
-          }}
-        >
-          Rand-Slug
-        </Button>
+              router.push(
+                `/create-wiki?slug=${
+                  randomSlugs[randomSlugIdRef.current % randomSlugs.length]
+                }`,
+              )
+            }}
+          >
+            Rand-Slug
+          </Button>
+        </Tooltip>
         <Button
           isLoading={submittingWiki}
           loadingText="Loading"
