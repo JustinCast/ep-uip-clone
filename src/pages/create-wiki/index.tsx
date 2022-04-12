@@ -6,6 +6,7 @@ import React, {
   useCallback,
   ChangeEvent,
   useMemo,
+  useRef,
 } from 'react'
 import dynamic from 'next/dynamic'
 import {
@@ -388,6 +389,7 @@ const CreateWiki = () => {
     setOpenTxDetailsDialog(false)
   }
 
+  const randomSlugIdRef = useRef(0)
   return (
     <Box maxW="1900px" mx="auto" mb={8}>
       <HStack
@@ -422,6 +424,49 @@ const CreateWiki = () => {
             placeholder="Title goes here"
           />
         </InputGroup>
+        <Button
+          variant="outline"
+          w="250px"
+          onClick={() => {
+            randomSlugIdRef.current += 1
+            dispatch({
+              type: 'wiki/updateMetadata',
+              payload: {
+                id: 'page-type',
+                // get random page id from page templates for value
+                value:
+                  PageTemplate[randomSlugIdRef.current % PageTemplate.length]
+                    .type,
+              },
+            })
+          }}
+        >
+          Rand-Pgtype
+        </Button>
+        <Button
+          variant="outline"
+          w="250px"
+          onClick={() => {
+            const randomSlugs = [
+              'long-sample-wiki',
+              'decentralized-exchange-(dex)',
+              'sushiswap',
+              'komainu-(company)',
+              'summary-test-wiki',
+              'simplypheyie',
+              'jdjdkedkddkdkd',
+            ]
+            randomSlugIdRef.current += 1
+
+            router.push(
+              `/create-wiki?slug=${
+                randomSlugs[randomSlugIdRef.current % randomSlugs.length]
+              }`,
+            )
+          }}
+        >
+          Rand-Slug
+        </Button>
         <Button
           isLoading={submittingWiki}
           loadingText="Loading"
