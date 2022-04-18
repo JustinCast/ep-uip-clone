@@ -6,9 +6,11 @@ import shortenAccount from '@/utils/shortenAccount'
 import NextLink from 'next/link'
 import { getWikiImageUrl } from '@/utils/getWikiImageUrl'
 import DisplayAvatar from '@/components/Elements/Avatar/Avatar'
+import { useENSData } from '@/hooks/useENSData'
 import { WikiImage } from '../WikiImage'
 
 const HeroCard = ({ wiki }: HeroProps) => {
+  const [, username] = useENSData(wiki?.user?.id)
   return (
     <NextLink href={`/wiki/${wiki?.id}`} passHref>
       <Flex
@@ -43,9 +45,12 @@ const HeroCard = ({ wiki }: HeroProps) => {
             fontWeight="semibold"
           >
             <chakra.span>{wiki?.title}</chakra.span>
-            <chakra.span color="blue">
-              {shortenAccount(wiki?.user?.id || '')}
-            </chakra.span>
+
+            <NextLink href={`/account/${wiki?.user?.id}`} passHref>
+              <chakra.span color="blue">
+                {username || shortenAccount(wiki?.user?.id || '')}
+              </chakra.span>
+            </NextLink>
           </Flex>
         </Flex>
       </Flex>

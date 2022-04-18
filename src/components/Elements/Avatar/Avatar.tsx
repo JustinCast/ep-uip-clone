@@ -1,7 +1,5 @@
 import React from 'react'
-import CustomAvatar from 'boring-avatars'
 import { Avatar, chakra, ChakraProps, Icon } from '@chakra-ui/react'
-import { AvatarColorArray } from '@/data/AvatarData'
 import { RiAccountCircleLine } from 'react-icons/ri'
 import { useENSData } from '@/hooks/useENSData'
 
@@ -22,15 +20,6 @@ const DisplayAvatar = ({
   let content = null
   if (avatar) {
     content = <Avatar size="xs" src={avatar} {...rest} />
-  } else if (address && !avatar) {
-    content = (
-      <CustomAvatar
-        size={size}
-        variant="pixel"
-        name="Unnamed"
-        colors={AvatarColorArray}
-      />
-    )
   } else {
     content = (
       <Icon
