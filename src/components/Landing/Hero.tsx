@@ -37,7 +37,10 @@ const HeroCard = ({ wiki }: HeroProps) => {
         />
         <Flex p="3" align="center" gap={4}>
           <NextLink href={`/account/${wiki?.user?.id}`} passHref>
-            <DisplayAvatar showPlaceHolderAvatar={false} address={wiki?.user?.id} />
+            <DisplayAvatar
+              showPlaceHolderAvatar={false}
+              address={wiki?.user?.id}
+            />
           </NextLink>
           <Flex
             direction="column"

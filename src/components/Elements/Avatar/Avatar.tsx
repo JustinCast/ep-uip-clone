@@ -33,7 +33,7 @@ const DisplayAvatar = ({
         colors={AvatarColorArray}
       />
     )
-  } else if(showPlaceHolderAvatar) {
+  } else if (showPlaceHolderAvatar) {
     content = (
       <Icon
         cursor="pointer"
