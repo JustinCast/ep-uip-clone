@@ -1,5 +1,7 @@
 import React from 'react'
+import CustomAvatar from 'boring-avatars'
 import { Avatar, chakra, ChakraProps, Icon } from '@chakra-ui/react'
+import { AvatarColorArray } from '@/data/AvatarData'
 import { RiAccountCircleLine } from 'react-icons/ri'
 import { useENSData } from '@/hooks/useENSData'
 
@@ -8,19 +10,30 @@ type DisplayAvatarProps = ChakraProps & {
   svgProps?: any
   size?: number | string
   mt?: number | string
+  showPlaceHolderAvatar?: boolean | null
 }
 const DisplayAvatar = ({
   address,
   svgProps,
   size = 25,
   mt = 2,
+  showPlaceHolderAvatar,
   ...rest
 }: DisplayAvatarProps) => {
   const [avatar, ,] = useENSData(address)
   let content = null
   if (avatar) {
     content = <Avatar size="xs" src={avatar} {...rest} />
-  } else {
+  } else if (address && !avatar && showPlaceHolderAvatar) {
+    content = (
+      <CustomAvatar
+        size={size}
+        variant="pixel"
+        name="Unnamed"
+        colors={AvatarColorArray}
+      />
+    )
+  } else if(showPlaceHolderAvatar) {
     content = (
       <Icon
         cursor="pointer"
