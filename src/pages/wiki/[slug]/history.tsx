@@ -60,8 +60,11 @@ const History = () => {
             // map 10 times
             Array.from({ length: 10 }, (_, index) => (
               <HistoryCard
+                key={index}
                 isRightAligned={isHistoryFullWidth ? true : index % 2 === 0}
                 isFullWidth={isHistoryFullWidth}
+                lastEditor={wiki?.user.id}
+                lastEditedTime={wiki?.updated}
               />
             ))
           }
