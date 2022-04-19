@@ -102,7 +102,7 @@ const Highlights = ({ initialImage, isToResetImage }: HightLightsType) => {
                 <RiTwitterLine />
                 <Text whiteSpace="nowrap">Twitter Profile</Text>
               </Td>
-              <Td wordBreak="break-all">
+              <Td wordBreak="break-word">
                 {shortenText(
                   getWikiMetadataById(currentWiki as Wiki, 'twitter-profile')
                     ?.value || '',
