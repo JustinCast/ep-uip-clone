@@ -17,6 +17,7 @@ import { useAppSelector } from '@/store/hook'
 import { getWikiMetadataById } from '@/utils/getWikiFields'
 import { BaseCategory, Wiki } from '@/types/Wiki'
 import { ImageContext, ImageKey, ImageStateType } from '@/context/image.context'
+import { shortenText } from '@/utils/shortenText'
 import HighlightsModal from './HighlightsModal/HighlightsModal'
 import SummaryInput from './SummaryInput'
 
@@ -99,13 +100,14 @@ const Highlights = ({ initialImage, isToResetImage }: HightLightsType) => {
                 gap={2}
               >
                 <RiTwitterLine />
-                <Text>Twitter Profile</Text>
+                <Text whiteSpace="nowrap">Twitter Profile</Text>
               </Td>
-              <Td>
-                {
+              <Td wordBreak="break-all">
+                {shortenText(
                   getWikiMetadataById(currentWiki as Wiki, 'twitter-profile')
-                    ?.value
-                }
+                    ?.value || '',
+                  50,
+                )}
               </Td>
             </Tr>
           </Tbody>
