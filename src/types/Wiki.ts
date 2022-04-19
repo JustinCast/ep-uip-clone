@@ -23,14 +23,12 @@ export interface User {
 }
 
 export enum PageTypeName {
+  GENERIC = 'generic',
   PERSON = 'Person',
-  PLACE_LOCATION = 'Place / Location',
-  ORGANIZATION_COMPANY_INSTITUTION = 'Organization / Company / Institution',
   EVENT = 'Event',
-  LIST_RANKING = 'List / Ranking',
-  PRODUCT_MERCHANDISE = 'Product / Merchandise',
-  CREATIVE_WORK_ART = 'Create Work / Art',
-  OTHER = 'Other',
+  DAPP = 'Dapp',
+  NFT = 'NFT',
+  TOKEN = 'Token',
 }
 
 export type PageType = {

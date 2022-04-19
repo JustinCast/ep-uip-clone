@@ -14,7 +14,7 @@ const initialState: Wiki = {
   metadata: [
     {
       id: 'page-type',
-      value: 'Place / Location',
+      value: 'generic',
     },
     {
       id: 'twitter-profile',
